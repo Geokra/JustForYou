@@ -1,5 +1,6 @@
 import importlib.util
 import inspect
+import os
 import pathlib
 import sys
 
@@ -10,6 +11,7 @@ class ModuleManager:
     def __init__(self):
         self.modules = dict()
         self.directory = None
+        self.module_extension = self.determine_module_extension()
 
     def set_directory(self, directory: pathlib.Path):
         self.directory = directory
@@ -17,7 +19,7 @@ class ModuleManager:
             directory.mkdir()
 
     def load(self):
-        for file in self.directory.glob("*.so"):
+        for file in self.directory.glob(f"*.{self.module_extension}"):
             module_name = self.normalize_module_name(file)
             module = self.load_module(module_name, file)
             instance = self.create_module_instance(module)
@@ -43,5 +45,11 @@ class ModuleManager:
         print(f"No Module subclass found in {module}")
         return None
 
-
+    @staticmethod
+    def determine_module_extension():
+        if os.name == "posix":
+            return "so"
+        if os.name == "nt":
+            return "pyd"
+        return None
 

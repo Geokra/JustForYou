@@ -40,13 +40,20 @@ def compile_module(module_directory, module_py):
         raise Exception(process.stderr)
 
 def move_compiled_modules():
-    found = list(pathlib.Path(".").glob("*.so"))
+    found = list(pathlib.Path(".").glob(f"*.{determine_module_extension()}"))
     if len(found) > 1:
         raise Exception(f"multiple shared libraries found: {found}")
     target_file = pathlib.Path(TARGET_PATH).joinpath(found[0].name)
     if target_file.exists():
         os.remove(target_file)
     shutil.move(found[0], TARGET_PATH)
+
+def determine_module_extension():
+    if os.name == "posix":
+        return "so"
+    if os.name == "nt":
+        return "pyd"
+    return None
 
 if __name__ == '__main__':
     main()
