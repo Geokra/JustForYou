@@ -10,5 +10,5 @@
 | Unvollständige Dokumentation             | Projektplanung    | 5                  | 7          | 35         | Projekttagebuch täglich führen                   | PO             |
 | Verfehlen des wöchentlichen Mehrwerts    | Implementierung   | 4                  | 8          | 32         | Dynamische Arbeitsverteilung                     | PL             |
 | Budgetüberschreitung                     | Projektplanung    | 4                  | 6          | 24         | Projektstrukturplan mit voraussichtlichen Kosten | PL             |
-| Verlust von Projektdateien               | Implementierung   | 2                  | 9          | 18         | GitHub                                           |                |
+| Verlust von Projektdateien               | Implementierung   | 2                  | 9          | 18         | GitHub                                           | PL             |
 | Nachleistungen                           | Projektabschluss  | 3                  | 6          | 18         | Budget Puffer                                    | PL             |
