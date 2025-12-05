@@ -2,6 +2,7 @@ import os.path
 import pathlib
 import shutil
 import subprocess
+import sys
 
 MODULES_PATH = "../src/module/modules"
 TARGET_PATH = "../modules"
@@ -33,7 +34,7 @@ def compile_module(module_directory, module_py):
     py_files = module_directory.glob("**/*.py")
     for py_file in py_files:
         flags.append(f"--follow-import-to={py_file.stem}")
-    args = ["nuitka", "--module", str(module_py)]
+    args = [sys.executable, "-m", "nuitka", "--module", str(module_py)]
     args.extend(flags)
     process = subprocess.run(args)
     if process.returncode == -1:
