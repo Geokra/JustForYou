@@ -1,0 +1,35 @@
+#left_section {
+    background-color: #2C2C2C;
+    padding: 10px;
+    min-width: 200px;
+}
+
+QPushButton {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 16px;
+    margin: 5px;
+}
+
+QPushButton:hover {
+    background-color: #45a049;
+}
+
+#right_section {
+    background-color: #f4f4f4;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+QStackedWidget {
+    background-color: #f4f4f4;
+}
+
+QLabel {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin: 20px;
+}

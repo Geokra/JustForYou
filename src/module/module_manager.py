@@ -25,6 +25,14 @@ class ModuleManager:
             instance = self.create_module_instance(module)
             self.modules[module_name] = instance
 
+    def enable(self):
+        for module in self.modules.values():
+            module.on_enable()
+
+    def disable(self):
+        for module in self.modules.values():
+            module.on_disable()
+
     def normalize_module_name(self, file: pathlib.Path):
         module_name = file.name
         if ".cpython" in file.name:

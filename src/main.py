@@ -12,11 +12,15 @@ def main():
     module_manager = ModuleManager()
     module_manager.set_directory(pathlib.Path("modules"))
     module_manager.load()
+    module_manager.enable()
 
+    window.set_modules(module_manager.modules)
+    window.setup()
     window.show()
 
     app.exec()
-    pass
+
+    module_manager.disable()
 
 if __name__ == '__main__':
     main()
