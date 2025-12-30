@@ -22,8 +22,8 @@ def main():
             compile_module(module_directory, module_py)
         print(f"successfully compiled module {module_name}")
         move_compiled_modules()
-        os.chdir("..")
-        clean_build_directory()
+    os.chdir("..")
+    clean_build_directory()
 
 def clean_build_directory():
     if os.path.exists(BUILD_PATH):
