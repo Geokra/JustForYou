@@ -1,8 +1,8 @@
 import pathlib
 import sys
 from PyQt6.QtWidgets import QApplication
-from src.module.module_manager import ModuleManager
-from src.window.window import Window
+from module.module_manager import ModuleManager
+from window.window import Window
 
 
 def main():

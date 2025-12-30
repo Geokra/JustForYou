@@ -4,7 +4,7 @@ import os
 import pathlib
 import sys
 
-from src.module.module import Module
+from module.module import Module
 
 class ModuleManager:
 
