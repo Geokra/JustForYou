@@ -8,10 +8,11 @@ from module.module import Module
 
 class ModuleManager:
 
-    def __init__(self):
+    def __init__(self, debug: bool = False):
         self.modules = dict()
         self.directory = None
         self.module_extension = self.determine_module_extension()
+        self.debug: bool = debug
 
     def set_directory(self, directory: pathlib.Path):
         self.directory = directory
@@ -19,11 +20,21 @@ class ModuleManager:
             directory.mkdir()
 
     def load(self):
+        if self.debug:
+            for dir in self.directory.iterdir():
+                module_name: str = dir.name
+                file = dir.joinpath(f"{module_name}.py")
+                self._load_module(module_name, file)
+            return
         for file in self.directory.glob(f"*.{self.module_extension}"):
             module_name = self.normalize_module_name(file)
-            module = self.load_module(module_name, file)
-            instance = self.create_module_instance(module)
-            self.modules[module_name] = instance
+            self._load_module(module_name, file)
+
+    def _load_module(self, module_name, file):
+        module = self.load_module(module_name, file)
+        instance = self.create_module_instance(module)
+        self.modules[module_name] = instance
+
 
     def enable(self):
         for module in self.modules.values():

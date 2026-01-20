@@ -9,8 +9,11 @@ def main():
     app = QApplication(sys.argv)
     window = Window()
 
-    module_manager = ModuleManager()
-    module_manager.set_directory(pathlib.Path("modules"))
+    module_manager = ModuleManager(False)
+    if module_manager.debug:
+        module_manager.set_directory(pathlib.Path("src/module/modules"))
+    else:
+        module_manager.set_directory(pathlib.Path("modules"))
     module_manager.load()
     module_manager.enable()
 
