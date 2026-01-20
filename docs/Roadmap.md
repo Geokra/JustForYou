@@ -6,7 +6,7 @@
 - [x] Projektstrukturplan in Bauplanansicht mit Verantwortlichkeiten für die Implementierung u. voraussichtlichen Kosten (1)[15] – LF12
 #### Woche 2
 ----
-- [ ] Risikoanalyse mit mind. zehn projektbezogenen Risiken aus vier Tätigkeitsbereichen (2)[20] – LF12
+- [x] Risikoanalyse mit mind. zehn projektbezogenen Risiken aus vier Tätigkeitsbereichen (2)[20] – LF12
 #### Woche 3
 ----
 - [ ] komplettes analyt. Klassendiagramm (3)[15] – LF11, passend zum GUI-Prototypen der proprietären Module
