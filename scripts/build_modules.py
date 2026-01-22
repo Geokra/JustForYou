@@ -1,63 +1,45 @@
+import json
 import os.path
 import pathlib
-import shutil
-import subprocess
-import sys
+import zipfile
 
 MODULES_PATH = "src/module/modules"
 TARGET_PATH = "modules"
-BUILD_PATH = "build_modules"
 
 def main():
-    clean_build_directory()
     modules = os.listdir(MODULES_PATH)
     for module_name in modules:
         module_directory = pathlib.Path(f"{MODULES_PATH}/{module_name}")
-        module_py = module_directory.joinpath(f"{module_name}.py")
+        name, class_name, file = load_module_entry(module_directory.joinpath("module.json"))
+        file = module_directory.joinpath(file)
         if not module_directory.is_dir():
             continue
-        if module_py.exists():
-            compile_module(module_directory, module_py)
-        print(f"successfully compiled module {module_name}")
-        move_compiled_modules()
+        if file.exists():
+            archive_path = os.path.join(TARGET_PATH, f"{name}.module")
+            create_archive(module_directory, archive_path)
+        print(f"successfully created module {module_name}")
 
-def clean_build_directory():
-    if os.path.exists(BUILD_PATH):
-        shutil.rmtree(BUILD_PATH)
+def create_archive(directory, output):
+    with zipfile.ZipFile(output, "w") as zip_file:
+        for root, dirs, files in os.walk(directory):
+            for dir_name in dirs:
+                dir_path = os.path.join(root, dir_name)
+                arcname = os.path.relpath(dir_path, directory) + "/"
+                zip_file.writestr(arcname, "")
 
-def compile_module(module_directory, module_py):
-    flags = list()
-    py_files = module_directory.glob("**/*.py")
-    for py_file in py_files:
-        flags.append(f"--follow-import-to={py_file.stem}")
-    args = [
-        sys.executable,
-        "-m",
-        "nuitka",
-        "--module",
-        f"--output-dir={BUILD_PATH}",
-        str(module_py)
-    ]
-    args.extend(flags)
-    process = subprocess.run(args)
-    if process.returncode == -1:
-        raise Exception(process.stderr)
+            for file_name in files:
+                file_path = os.path.join(root, file_name)
+                arcname = os.path.relpath(file_path, directory)
+                zip_file.write(file_path, arcname)
 
-def move_compiled_modules():
-    found = list(pathlib.Path(BUILD_PATH).glob(f"*.{determine_module_extension()}"))
-    if len(found) > 1:
-        raise Exception(f"multiple shared libraries found: {found}")
-    target_file = pathlib.Path(TARGET_PATH).joinpath(found[0].name)
-    if target_file.exists():
-        os.remove(target_file)
-    shutil.move(found[0], TARGET_PATH)
 
-def determine_module_extension():
-    if os.name == "posix":
-        return "so"
-    if os.name == "nt":
-        return "pyd"
-    return None
+def load_module_entry(path: pathlib.Path):
+    with open(path) as file:
+        data = json.load(file)
+    name = data['name']
+    class_name = data['class']
+    file = data['file']
+    return name, class_name, file
 
 if __name__ == '__main__':
     main()
