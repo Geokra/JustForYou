@@ -27,6 +27,7 @@ class ModuleManager:
             return
         for file in self.directory.glob(f"*.{self.module_extension}"):
             importer = zipimport.zipimporter(str(file))
+            sys.path.insert(0, str(file))
             raw_data = importer.get_data(f"{file}/module.json")
             module_name, class_name, entry_file = self._load_module_entry_from_bytes(raw_data)
             self._load_module(module_name, class_name, f"{file}/{entry_file}", importer)
