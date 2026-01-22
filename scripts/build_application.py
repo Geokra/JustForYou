@@ -21,15 +21,17 @@ def compile():
     args = [
         sys.executable,
         "-m",
-        "nuitka",
-        "--standalone",
+        "PyInstaller",
         "--onefile",
-        "--follow-imports",
-        "--assume-yes-for-downloads",
-        "--enable-plugin=pyqt6",
-        f"--output-dir={BUILD_PATH}",
-        f"--output-filename={APP_NAME}",
-        SRC_PATH
+        "--name",
+        APP_NAME,
+        SRC_PATH,
+        "--distpath",
+        f"{BUILD_PATH}/executable",
+        "--workpath",
+        f"{BUILD_PATH}/build",
+        "--specpath",
+        f"{BUILD_PATH}/spec"
     ]
     process = subprocess.run(args)
     if process.returncode == -1:
