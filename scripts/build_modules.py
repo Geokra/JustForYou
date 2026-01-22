@@ -4,9 +4,11 @@ import pathlib
 import zipfile
 
 MODULES_PATH = "src/module/modules"
-TARGET_PATH = "modules"
+TARGET_PATH = "build/executable/modules"
 
 def main():
+    if not os.path.exists(TARGET_PATH):
+        pathlib.Path(TARGET_PATH).mkdir(parents=True, exist_ok=True)
     modules = os.listdir(MODULES_PATH)
     for module_name in modules:
         module_directory = pathlib.Path(f"{MODULES_PATH}/{module_name}")
