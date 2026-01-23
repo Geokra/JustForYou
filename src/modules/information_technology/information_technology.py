@@ -1,7 +1,7 @@
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QFormLayout, QGroupBox, QLabel, QPushButton, QSpinBox, QVBoxLayout, QWidget
-from module.module import Module
-from module.modules.information_technology import helper
+from module import Module
+import helper
 
 class InformationTechnology(Module):
 

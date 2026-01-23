@@ -1,9 +1,9 @@
 import pathlib
 import sys
 from PyQt6.QtWidgets import QApplication
-from module.module_manager import ModuleManager
+from manager.module_manager import ModuleManager
 from window.window import Window
-
+import module
 
 def main():
     app = QApplication(sys.argv)
@@ -11,7 +11,7 @@ def main():
 
     module_manager = ModuleManager(False)
     if module_manager.debug:
-        module_manager.set_directory(pathlib.Path("src/module/modules"))
+        module_manager.set_directory(pathlib.Path("src/modules"))
     else:
         module_manager.set_directory(pathlib.Path("modules"))
     module_manager.load()
