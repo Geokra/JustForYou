@@ -37,5 +37,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: executable-${{ matrix.os }}
-        path: build/executable styles
+        path: |
+          build/executable
+          styles
 
