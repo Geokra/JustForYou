@@ -52,6 +52,9 @@ class ModuleManager:
         if importer:
             module = self.load_module_from_zip(importer, module_name, file)
         else:
+            module_dir = os.path.dirname(str(file))
+            if module_dir not in sys.path:
+                sys.path.insert(0, module_dir)
             module = self.load_module(module_name, file)
         instance = self.create_module_instance(module, class_name)
         self.modules[module_name] = instance
