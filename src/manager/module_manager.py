@@ -21,6 +21,8 @@ class ModuleManager:
     def load(self):
         if self.debug:
             for dir in self.directory.iterdir():
+                if dir.name == "__pycache__":
+                    continue
                 module_name, class_name, file = self._load_module_entry_from_file(dir.joinpath("module.json"))
                 file = dir.joinpath(file)
                 self._load_module(module_name, class_name, file)
