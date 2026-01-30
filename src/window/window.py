@@ -3,7 +3,7 @@ from PyQt6.QtCore import QFile, QIODeviceBase, QTextStream, Qt
 from PyQt6.QtWidgets import QApplication, QFrame, QHBoxLayout, QMainWindow, QPushButton, QStackedWidget, QTextEdit, QVBoxLayout, QWidget
 
 import history
-from settings import Settings
+import settings
 
 class Window(QMainWindow):
 
@@ -58,9 +58,10 @@ class Window(QMainWindow):
         settings_button = QPushButton("Settings")
         self.left_bottom_layout.addWidget(settings_button)
         self.left_bottom_layout.setAlignment(Qt.AlignmentFlag.AlignVCenter)
-        settings = Settings()
-        self.stacked_widget.addWidget(settings.widget)
-        settings_button.clicked.connect(lambda _, w=settings.widget: self.stacked_widget.setCurrentWidget(w))
+
+        settings.settings.setup_ui()
+        self.stacked_widget.addWidget(settings.settings.widget)
+        settings_button.clicked.connect(lambda _, w=settings.settings.widget: self.stacked_widget.setCurrentWidget(w))
 
         self.right_bottom_section = QWidget(self)
         self.right_bottom_section.setObjectName("right_bottom_section")
