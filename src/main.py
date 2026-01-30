@@ -2,12 +2,14 @@ import pathlib
 import sys
 from PyQt6.QtWidgets import QApplication
 from manager.module_manager import ModuleManager
+import settings
 from window.window import Window
 import module
 
 def main():
     app = QApplication(sys.argv)
     window = Window()
+    settings.settings.load()
 
     module_manager = ModuleManager(False)
     if module_manager.debug:
@@ -24,6 +26,7 @@ def main():
     app.exec()
 
     module_manager.disable()
+    settings.settings.save()
 
 if __name__ == '__main__':
     main()
