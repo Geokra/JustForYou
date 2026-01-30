@@ -1,5 +1,5 @@
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QFormLayout, QGroupBox, QLabel, QPushButton, QSpinBox, QVBoxLayout, QWidget
+from PyQt6.QtWidgets import QComboBox, QFormLayout, QGroupBox, QLabel, QPushButton, QSpinBox, QVBoxLayout, QWidget
 from module import Module
 import helper
 
@@ -44,10 +44,14 @@ class InformationTechnology(Module):
         self.input_frames = QSpinBox()
         self.input_frames.setRange(1, 100000)
 
+        self.unit = QComboBox()
+        self.unit.addItems(["BIT", "BYTE", "KIB", "MIB", "GIB", "TIB"])
+
         form_layout.addRow("Breite (px):", self.input_width)
         form_layout.addRow("Höhe (px):", self.input_height)
         form_layout.addRow("Farbtiefe (Bit):", self.input_color_depth)
         form_layout.addRow("Frames:", self.input_frames)
+        form_layout.addRow("Ergebnis Einheit:", self.unit)
 
         storage_layout.addLayout(form_layout)
 
@@ -75,4 +79,7 @@ class InformationTechnology(Module):
                 self.input_color_depth.value(),
                 self.input_frames.value()
         )
-        self.output_result.setText(str(result) + "b")
+        
+        target_unit = helper.Unit[self.unit.currentText()]
+        result = helper.convert_to_unit(result, helper.Unit.BIT, target_unit)
+        self.output_result.setText(str(result) + f"{target_unit.name}")
