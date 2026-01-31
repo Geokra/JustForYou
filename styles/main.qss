@@ -4,6 +4,19 @@
     min-width: 200px;
 }
 
+#left_bottom_section {
+    background-color: #2C2C2C;
+    padding: 10px;
+    min-width: 200px;
+    max-width: 200px;
+}
+
+#right_section {
+    background-color: #f4f4f4;
+    border-radius: 10px;
+    padding: 20px;
+}
+
 QPushButton {
     background-color: #4CAF50;
     color: white;
@@ -15,12 +28,6 @@ QPushButton {
 
 QPushButton:hover {
     background-color: #45a049;
-}
-
-#right_section {
-    background-color: #f4f4f4;
-    border-radius: 10px;
-    padding: 20px;
 }
 
 QStackedWidget {
