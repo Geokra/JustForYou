@@ -12,6 +12,8 @@ def main():
         pathlib.Path(TARGET_PATH).mkdir(parents=True, exist_ok=True)
     modules = os.listdir(MODULES_PATH)
     for module_name in modules:
+        if module_name == "__pycache__":
+            continue
         module_directory = pathlib.Path(f"{MODULES_PATH}/{module_name}")
         common_directory = pathlib.Path(COMMON_PATH)
         name, class_name, file = load_module_entry(module_directory.joinpath("module.json"))
