@@ -2,3 +2,4 @@
 .venv
 modules/*
 build
+.CODEOWNERS
