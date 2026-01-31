@@ -57,7 +57,7 @@ class Window(QMainWindow):
 
         settings_button = QPushButton("Settings")
         self.left_bottom_layout.addWidget(settings_button)
-        self.left_bottom_layout.setAlignment(Qt.AlignmentFlag.AlignVCenter)
+        self.left_bottom_layout.setAlignment(Qt.AlignmentFlag.AlignBottom)
 
         settings.settings.setup_ui()
         self.stacked_widget.addWidget(settings.settings.widget)
