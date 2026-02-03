@@ -11,7 +11,7 @@ def main():
     window = Window()
     settings.settings.load()
 
-    module_manager = ModuleManager(True)
+    module_manager = ModuleManager(False)
     if module_manager.debug:
         module_manager.set_directory(pathlib.Path("src/modules"))
     else:
