@@ -2,6 +2,7 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QComboBox, QFormLayout, QGroupBox, QLabel, QPushButton, QSpinBox, QVBoxLayout, QWidget
 from module import Module
 import helper
+import history
 
 class InformationTechnology(Module):
 
@@ -59,11 +60,6 @@ class InformationTechnology(Module):
         self.calculate_button.clicked.connect(self.on_calculate_storage)
         storage_layout.addWidget(self.calculate_button)
 
-        self.output_result = QLabel("Ergebnis: –")
-        self.output_result.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.output_result.setStyleSheet("font-weight: bold;")
-        storage_layout.addWidget(self.output_result)
-
         layout.addWidget(options_group)
         layout.addWidget(storage_group)
 
@@ -82,4 +78,4 @@ class InformationTechnology(Module):
         
         target_unit = helper.Unit[self.unit.currentText()]
         result = helper.convert_to_unit(result, helper.Unit.BIT, target_unit)
-        self.output_result.setText(str(result) + f"{target_unit.name}")
+        history.history.update(f"{result} {target_unit.name}")
