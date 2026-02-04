@@ -16,11 +16,7 @@ class PercentCalculator(Module):
         options_group = QGroupBox()
         options_layout = QVBoxLayout(options_group)
 
-        storage_calculation_button = QPushButton("Speicherberechnung")
-        options_layout.addWidget(storage_calculation_button)
 
-        base_calculation_button = QPushButton("Zahlensystemberechnung")
-        options_layout.addWidget(base_calculation_button)
 
         # --- Storage calculation group ---
         storage_group = QGroupBox("Speicherberechnung")
