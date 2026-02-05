@@ -3,11 +3,6 @@ from enum import Enum
 mwst_brutto = 1.19
 mwst_netto = 0.19
 
-
-def calculate_percentage_davon(num: float, percentage: float):
-    return percentage * num / 100
-    # wie viel sind X % von Y
-
 def calculate_percentage_dazu(num:float, percentage:float):
     return (percentage * num / 100) + num
 
@@ -15,6 +10,10 @@ def calculate_percentage_weg(num:float, percentage:float):
     value = (percentage * num / 100)
     num -= value
     return num
+
+def calculate_percentage_davon(num: float, percentage: float):
+    return percentage * num / 100
+    # wie viel sind X % von Y
 
 def calculate_percentage_satz(num:float, num2:float):
     return (num / num2) * 100
