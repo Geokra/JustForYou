@@ -22,9 +22,7 @@ def calculate_percentage_mwst_brutto(num: float):
     return num * mwst_brutto
 
 def calculate_percentage_mwst_netto(num:float):
-    value = (num / mwst_netto)
-    num -= value
-    return num
+    return num / 1.19
 
 class Unit(Enum):
     davon = 1
