@@ -3,3 +3,4 @@
 modules/*
 build
 .CODEOWNERS
+__pycache__
