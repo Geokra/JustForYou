@@ -59,22 +59,22 @@ class Window(QMainWindow):
         self.left_bottom_layout.addWidget(settings_button)
         self.left_bottom_layout.setAlignment(Qt.AlignmentFlag.AlignBottom)
 
+        clear_button = QPushButton("Clear")
+
         settings.settings.setup_ui()
         self.stacked_widget.addWidget(settings.settings.widget)
         settings_button.clicked.connect(lambda _, w=settings.settings.widget: self.stacked_widget.setCurrentWidget(w))
 
         self.right_bottom_section = QWidget(self)
         self.right_bottom_section.setObjectName("right_bottom_section")
-        self.right_bottom_layout = QVBoxLayout(self.right_bottom_section)
+        self.right_bottom_layout = QHBoxLayout(self.right_bottom_section)
         self.right_bottom_layout.setAlignment(Qt.AlignmentFlag.AlignLeft)
 
-        history_text_edit = QTextEdit()
-        for line in history.history.lines:
-            history_text_edit.append(line)
-        history_text_edit.setReadOnly(True)
-        history_text_edit.setFrameShape(QFrame.Shape.NoFrame)
-
-        self.right_bottom_layout.addWidget(history_text_edit)
+        history.history.setup()
+        clear_button.clicked.connect(history.history.clear)
+        
+        self.right_bottom_layout.addWidget(history.history.history_text_edit)
+        self.right_bottom_layout.addWidget(clear_button)
 
         bottom_layout.addWidget(self.left_bottom_section)
         bottom_layout.addWidget(self.right_bottom_section)

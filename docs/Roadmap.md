@@ -9,14 +9,14 @@
 - [x] Risikoanalyse mit mind. zehn projektbezogenen Risiken aus vier Tätigkeitsbereichen (2)[20] – LF12
 #### Woche 3
 ----
-- [ ] komplettes analyt. Klassendiagramm (3)[15] – LF11, passend zum GUI-Prototypen der proprietären Module
-- [ ] Projektplan (Gantt) einschließlich Personaleinsatz fürs Gesamtprojekt, gern als Microsoft-Project- oder ProjectLibre-Datei (3)[20] – LF12
-- [ ] Prototyping des GUI anlässlich Meilensteinberatung mit dem Kunden (3)[Prototyp: mind. 15, Beratung: 12, Protokoll: 8] – LF10
+- [x] komplettes analyt. Klassendiagramm (3)[15] – LF11, passend zum GUI-Prototypen der proprietären Module
+- [x] Projektplan (Gantt) einschließlich Personaleinsatz fürs Gesamtprojekt, gern als Microsoft-Project- oder ProjectLibre-Datei (3)[20] – LF12
+- [x] Prototyping des GUI anlässlich Meilensteinberatung mit dem Kunden (3)[Prototyp: mind. 15, Beratung: 12, Protokoll: 8] – LF10
 #### Woche 4
 ----
 - [ ] Vom analyt. Klassendiagramm getrenntes Design-Klassendiagramm (4)[15] – LF11
 - [ ] Pflichtenheft (inkl. GUI-Prototyp, KDs und Strukturplan) (4)[20] – LF12
-- [ ] Projektqualitätsplan (4)[30] – LF12
+- [x] Projektqualitätsplan (4)[30] – LF12
 #### Woche 5
 ----
 - [ ] in jeder Projektwoche ab Feb. 2026 muss dem Kunden ein Mehrwert übergeben werden können (5)[ggf. 12 + Protokoll: 8] – LF11

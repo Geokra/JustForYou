@@ -5,3 +5,4 @@ build
 .CODEOWNERS
 __pycache__
 config.json
+.idea
