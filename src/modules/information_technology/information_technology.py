@@ -1,5 +1,5 @@
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QComboBox, QFormLayout, QGroupBox, QLabel, QPushButton, QSpinBox, QStackedWidget, QTextEdit, QVBoxLayout, QWidget
+from PyQt6.QtWidgets import QComboBox, QDoubleSpinBox, QFormLayout, QGroupBox, QLabel, QPushButton, QSpinBox, QStackedWidget, QTextEdit, QVBoxLayout, QWidget
 from module import Module
 import helper
 import history
@@ -23,14 +23,20 @@ class InformationTechnology(Module):
         base_calculation_button = QPushButton("Zahlensystemberechnung")
         options_layout.addWidget(base_calculation_button)
 
+        data_conversion_button = QPushButton("Datenmengenumrechnung")
+        options_layout.addWidget(data_conversion_button)
+
         self.stacked_widget = QStackedWidget()
         self.setup_ui_calculate_storage()
         self.setup_ui_base_calculation()
+        self.setup_ui_data_conversion()
         self.stacked_widget.addWidget(self.storage_group)
         self.stacked_widget.addWidget(self.base_group)
+        self.stacked_widget.addWidget(self.data_conversion_group)
 
         storage_calculation_button.clicked.connect(self.switch_to_storage)
         base_calculation_button.clicked.connect(self.switch_to_base)
+        data_conversion_button.clicked.connect(self.switch_to_data_conversion)
 
         layout.addWidget(options_group)
         layout.addWidget(self.stacked_widget)
@@ -46,6 +52,8 @@ class InformationTechnology(Module):
     def switch_to_base(self):
         self.stacked_widget.setCurrentWidget(self.base_group)
         
+    def switch_to_data_conversion(self):
+        self.stacked_widget.setCurrentWidget(self.data_conversion_group)
 
     def on_calculate_storage(self):
         result = helper.calculate_storage(
@@ -73,6 +81,25 @@ class InformationTechnology(Module):
             history.history.update(result)
         except ValueError:
             self.error.setText("Ungültige Eingabe")
+
+    def on_convert_data(self):
+        value = self.data_value.value()
+        from_unit = self.data_from.currentText()
+        to_unit = self.data_to.currentText()
+
+        try:
+            result = helper.convert_data_units(value, from_unit, to_unit)
+            
+            if result == int(result):
+                result_text = f"{int(result)} {to_unit}"
+            else:
+                result_text = f"{result:.6f} {to_unit}"
+            
+            self.data_error.setText("")
+            history.history.update(result_text)
+            
+        except Exception as e:
+            self.data_error.setText(f"Fehler bei der Umrechnung: {str(e)}")
         
 
 
@@ -142,3 +169,43 @@ class InformationTechnology(Module):
         calculate_button = QPushButton("Umrechnen")
         calculate_button.clicked.connect(self.on_calculate_base)
         base_layout.addWidget(calculate_button)
+
+    def setup_ui_data_conversion(self):
+        self.data_conversion_group = QGroupBox("Datenmengenumrechnung")
+        data_layout = QVBoxLayout(self.data_conversion_group)
+
+        form_layout = QFormLayout()
+        form_layout.setLabelAlignment(Qt.AlignmentFlag.AlignLeft)
+        form_layout.setFormAlignment(Qt.AlignmentFlag.AlignTop)
+
+        self.data_value = QDoubleSpinBox()
+        self.data_value.setRange(0.000001, 999999999.0)
+        self.data_value.setDecimals(6)
+        self.data_value.setValue(1.0)
+
+        self.data_from = QComboBox()
+        self.data_from.addItems(["B", "KiB", "MiB", "GiB", "TiB", "KB", "MB", "GB", "TB"])
+
+        self.data_to = QComboBox()
+        self.data_to.addItems(["B", "KiB", "MiB", "GiB", "TiB", "KB", "MB", "GB", "TB"])
+
+        form_layout.addRow("Wert:", self.data_value)
+        form_layout.addRow("Von Einheit:", self.data_from)
+        form_layout.addRow("Zu Einheit:", self.data_to)
+
+        data_layout.addLayout(form_layout)
+
+        self.data_error = QLabel()
+        self.data_error.setStyleSheet("color: red;")
+        data_layout.addWidget(self.data_error)
+
+        info_label = QLabel(
+            "Binärpräfixe (KiB, MiB, GiB, TiB) verwenden Basis 1024\n"
+            "Dezimalpräfixe (KB, MB, GB, TB) verwenden Basis 1000"
+        )
+        info_label.setStyleSheet("color: gray; font-size: 9pt;")
+        data_layout.addWidget(info_label)
+
+        convert_button = QPushButton("Umrechnen")
+        convert_button.clicked.connect(self.on_convert_data)
+        data_layout.addWidget(convert_button)

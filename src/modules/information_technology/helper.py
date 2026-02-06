@@ -53,3 +53,36 @@ def convert_number(number: str, from_base: Base, to_base: Base) -> str:
         return oct(decimal_number)[2:]
     else:
         raise ValueError("Supported bases are 2, 3, 8, and 10.")
+
+def convert_data_units(value, from_unit, to_unit):
+    binary_units = {
+        'B': 1,
+        'KiB': 1024,
+        'MiB': 1024**2,
+        'GiB': 1024**3,
+        'TiB': 1024**4
+    }
+    
+    decimal_units = {
+        'B': 1,
+        'KB': 1000,
+        'MB': 1000**2,
+        'GB': 1000**3,
+        'TB': 1000**4
+    }
+    
+    if from_unit in binary_units:
+        bytes_value = value * binary_units[from_unit]
+    elif from_unit in decimal_units:
+        bytes_value = value * decimal_units[from_unit]
+    else:
+        raise ValueError(f"Unbekannte Einheit: {from_unit}")
+    
+    if to_unit in binary_units:
+        result = bytes_value / binary_units[to_unit]
+    elif to_unit in decimal_units:
+        result = bytes_value / decimal_units[to_unit]
+    else:
+        raise ValueError(f"Unbekannte Einheit: {to_unit}")
+    
+    return result
