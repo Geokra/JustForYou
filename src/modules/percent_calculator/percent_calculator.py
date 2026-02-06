@@ -2,6 +2,7 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (QComboBox, QFormLayout, QGroupBox, QLabel,
                              QPushButton, QDoubleSpinBox, QVBoxLayout, QWidget)
 from module import Module
+import history
 
 # Assuming your helper functions are in calculations.py
 from calculations import (Unit, calculate_percentage_dazu, calculate_percentage_weg,
@@ -68,7 +69,8 @@ class PercentCalculator(Module):
         self.input_compare = QDoubleSpinBox()
         self.input_compare.setRange(0, float('inf'))
         self.input_compare.setDecimals(2)
-        satz_layout.addRow("Vergleichswert:", self.input_compare)
+        self.label_compare = QLabel("Gesamtwert (100%):")
+        satz_layout.addRow(self.label_compare, self.input_compare)
 
         # Add containers to the main form
         self.form_layout.addRow(self.container_dynamic)
@@ -100,11 +102,22 @@ class PercentCalculator(Module):
         self.container_dynamic.setVisible(mode in [Unit.dazu, Unit.weg, Unit.davon])
         self.container_satz.setVisible(mode == Unit.satz)
 
-        # Dynamic Label Text
-        if text == "Prozentwert von einem Wert ausrechnen":
-            self.label_dynamic.setText("Wert 2:")
-        else:
+        # Update labels based on mode for clarity
+        if mode == Unit.dazu:
+            self.form_layout.labelForField(self.input_base).setText("Ausgangswert:")
+            self.label_dynamic.setText("Prozent hinzufügen (%):")
+        elif mode == Unit.weg:
+            self.form_layout.labelForField(self.input_base).setText("Ausgangswert:")
+            self.label_dynamic.setText("Prozent abziehen (%):")
+        elif mode == Unit.davon:
+            self.form_layout.labelForField(self.input_base).setText("Bezugswert:")
             self.label_dynamic.setText("Prozent (%):")
+        elif mode == Unit.satz:
+            self.form_layout.labelForField(self.input_base).setText("Anteil (Teilwert):")
+        elif mode == Unit.brutto:
+            self.form_layout.labelForField(self.input_base).setText("Nettopreis (ohne MwSt):")
+        elif mode == Unit.netto:
+            self.form_layout.labelForField(self.input_base).setText("Bruttopreis (inkl. MwSt):")
 
     def on_calculate_storage(self):
         text = self.calc_mode_combo.currentText()
@@ -117,24 +130,36 @@ class PercentCalculator(Module):
         result = 0.0
 
         try:
+            result_label = "Ergebnis"
+            unit = ""
+
             if mode == Unit.dazu:
                 result = calculate_percentage_dazu(val_base, val_dyn)
+                result_label = f"{val_base:,.2f} + {val_dyn}%"
             elif mode == Unit.weg:
                 result = calculate_percentage_weg(val_base, val_dyn)
+                result_label = f"{val_base:,.2f} - {val_dyn}%"
             elif mode == Unit.davon:
                 result = calculate_percentage_davon(val_base, val_dyn)
+                result_label = f"{val_dyn}% von {val_base:,.2f}"
             elif mode == Unit.satz:
                 if val_comp != 0:
                     result = calculate_percentage_satz(val_base, val_comp)
+                    result_label = f"Anteil von {val_base:,.2f} an {val_comp:,.2f}"
+                    unit = "%"
                 else:
                     self.output_result.setText("Fehler: Division durch 0")
                     return
             elif mode == Unit.brutto:
                 result = calculate_percentage_mwst_brutto(val_base)
+                result_label = f"Brutto (inkl. 19% MwSt)"
             elif mode == Unit.netto:
                 result = calculate_percentage_mwst_netto(val_base)
+                result_label = f"Netto (ohne MwSt)"
 
-            self.output_result.setText(f"Ergebnis: {result:,.2f}")
+            result_text = f"{result_label} = {result:,.2f}{unit}"
+            self.output_result.setText(result_text)
+            history.history.update(f"{result:,.2f}{unit}")
         except Exception as e:
             self.output_result.setText(f"Fehler: {str(e)}")
 
