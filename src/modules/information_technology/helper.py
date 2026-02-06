@@ -1,5 +1,5 @@
 
-from enum import Enum
+from enum import Enum, IntEnum
 
 
 def calculate_storage(width: int, height: int, color_depth: int, frames: int = 1):
@@ -27,3 +27,29 @@ def convert_to_unit(value: int, source_unit: Unit, target_unit: Unit) -> float:
     value_in_bits = value * BITS_PER_UNIT[source_unit]
     return value_in_bits / BITS_PER_UNIT[target_unit]
 
+
+class Base(IntEnum):
+    BINARY = 2
+    OCTAL = 8
+    TERNARY = 3
+    DECIMAL = 10
+
+def convert_number(number: str, from_base: Base, to_base: Base) -> str:
+    decimal_number = int(number, from_base)
+
+    if to_base == Base.DECIMAL:
+        return str(decimal_number)
+    elif to_base == Base.BINARY:
+        return bin(decimal_number)[2:]
+    elif to_base == Base.TERNARY:
+        result = ""
+        if decimal_number == 0:
+            return "0"
+        while decimal_number > 0:
+            result = str(decimal_number % 3) + result
+            decimal_number //= 3
+        return result
+    elif to_base == Base.OCTAL:
+        return oct(decimal_number)[2:]
+    else:
+        raise ValueError("Supported bases are 2, 3, 8, and 10.")
