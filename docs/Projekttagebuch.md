@@ -34,3 +34,5 @@
 - Pflichtenheft
 ##### 30.01.2026
 ----
+- Projektqualitätsplan
+- Design-Klassendiagramm
