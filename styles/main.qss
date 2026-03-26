@@ -40,3 +40,48 @@ QLabel {
     color: #333;
     margin: 20px;
 }
+
+#calc_btn, #calc_btn_clear, #calc_btn_backspace, #calc_btn_equals {
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 6px;
+    min-width: 60px;
+}
+
+#calc_btn {
+    background-color: #555;
+    color: white;
+}
+
+#calc_btn:hover {
+    background-color: #666;
+}
+
+#calc_btn_clear {
+    background-color: #e74c3c;
+    color: white;
+}
+
+#calc_btn_clear:hover {
+    background-color: #c0392b;
+}
+
+#calc_btn_backspace {
+    background-color: #e67e22;
+    color: white;
+}
+
+#calc_btn_backspace:hover {
+    background-color: #d35400;
+}
+
+#calc_btn_equals {
+    background-color: #4CAF50;
+    color: white;
+    font-size: 22px;
+}
+
+#calc_btn_equals:hover {
+    background-color: #45a049;
+}

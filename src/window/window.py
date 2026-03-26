@@ -84,6 +84,8 @@ class Window(QMainWindow):
         main_layout.addLayout(bottom_layout)
         main_layout.setSpacing(0)
         main_layout.setContentsMargins(0, 0, 0, 0)
+
+        self.stacked_widget.setCurrentIndex(0)
         
     def set_modules(self, modules: dict):
         self.modules = modules
