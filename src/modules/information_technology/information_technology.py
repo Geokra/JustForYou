@@ -1,5 +1,5 @@
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QComboBox, QDoubleSpinBox, QFormLayout, QGroupBox, QLabel, QPushButton, QSpinBox, QStackedWidget, QTextEdit, QVBoxLayout, QWidget
+from PyQt6.QtWidgets import QComboBox, QDoubleSpinBox, QFormLayout, QGroupBox, QHBoxLayout, QLabel, QPushButton, QSpinBox, QStackedWidget, QTextEdit, QVBoxLayout, QWidget
 from module import Module
 import helper
 import history
@@ -15,15 +15,25 @@ class InformationTechnology(Module):
         layout.setSpacing(12)
 
         options_group = QGroupBox()
-        options_layout = QVBoxLayout(options_group)
+        options_layout = QHBoxLayout(options_group)
 
         storage_calculation_button = QPushButton("Speicherberechnung")
+        storage_calculation_button.setCheckable(True)
+        storage_calculation_button.setAutoExclusive(True)
+        storage_calculation_button.setObjectName("tab_btn")
+        storage_calculation_button.setChecked(True)
         options_layout.addWidget(storage_calculation_button)
-        
+
         base_calculation_button = QPushButton("Zahlensystemberechnung")
+        base_calculation_button.setCheckable(True)
+        base_calculation_button.setAutoExclusive(True)
+        base_calculation_button.setObjectName("tab_btn")
         options_layout.addWidget(base_calculation_button)
 
         data_conversion_button = QPushButton("Datenmengenumrechnung")
+        data_conversion_button.setCheckable(True)
+        data_conversion_button.setAutoExclusive(True)
+        data_conversion_button.setObjectName("tab_btn")
         options_layout.addWidget(data_conversion_button)
 
         self.stacked_widget = QStackedWidget()
@@ -196,14 +206,14 @@ class InformationTechnology(Module):
         data_layout.addLayout(form_layout)
 
         self.data_error = QLabel()
-        self.data_error.setStyleSheet("color: red;")
+        self.data_error.setObjectName("error_label")
         data_layout.addWidget(self.data_error)
 
         info_label = QLabel(
             "Binärpräfixe (KiB, MiB, GiB, TiB) verwenden Basis 1024\n"
             "Dezimalpräfixe (KB, MB, GB, TB) verwenden Basis 1000"
         )
-        info_label.setStyleSheet("color: gray; font-size: 9pt;")
+        info_label.setObjectName("info_label")
         data_layout.addWidget(info_label)
 
         convert_button = QPushButton("Umrechnen")

@@ -21,6 +21,7 @@ class BasicCalculator(Module):
         self.input_term.setPlaceholderText("Eingabe...")
         self.input_term.returnPressed.connect(self.on_calc)
         self.output_label = QLabel()
+        self.output_label.setObjectName("result_label")
 
         # Calculator button grid
         calc_grid = QGridLayout()

@@ -104,8 +104,11 @@ class Schule(Module):
         result_layout.setLabelAlignment(Qt.AlignmentFlag.AlignLeft)
 
         self.lbl_count = QLabel("–")
+        self.lbl_count.setObjectName("result_label")
         self.lbl_avg = QLabel("–")
+        self.lbl_avg.setObjectName("result_label")
         self.lbl_recommendation = QLabel("–")
+        self.lbl_recommendation.setObjectName("result_label")
 
         result_layout.addRow("Anzahl Noten:", self.lbl_count)
         result_layout.addRow("Notendurchschnitt:", self.lbl_avg)

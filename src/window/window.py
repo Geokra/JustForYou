@@ -56,11 +56,11 @@ class Window(QMainWindow):
         self.left_bottom_layout = QVBoxLayout(self.left_bottom_section)
         self.left_bottom_section.setObjectName("left_bottom_section")
 
-        settings_button = QPushButton("Settings")
+        settings_button = QPushButton("Einstellungen")
         self.left_bottom_layout.addWidget(settings_button)
         self.left_bottom_layout.setAlignment(Qt.AlignmentFlag.AlignBottom)
 
-        clear_button = QPushButton("Clear")
+        clear_button = QPushButton("Verlauf löschen")
 
         settings.settings.setup_ui()
         self.stacked_widget.addWidget(settings.settings.widget)
@@ -80,8 +80,8 @@ class Window(QMainWindow):
         bottom_layout.addWidget(self.left_bottom_section)
         bottom_layout.addWidget(self.right_bottom_section)
 
-        main_layout.addLayout(top_layout)
-        main_layout.addLayout(bottom_layout)
+        main_layout.addLayout(top_layout, 3)
+        main_layout.addLayout(bottom_layout, 1)
         main_layout.setSpacing(0)
         main_layout.setContentsMargins(0, 0, 0, 0)
 

@@ -19,6 +19,7 @@ class Kredit(Module):
         for b in (self.pb_einmal, self.pb_laufzeit, self.pb_raten):
             b.setCheckable(True)
             b.setAutoExclusive(True)
+            b.setObjectName("tab_btn")
 
         main_layout = QVBoxLayout(self.widget)
 
@@ -61,7 +62,6 @@ class Kredit(Module):
         lb.setAlignment(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft)
         lb.setMinimumHeight(32)
         lb.setSizePolicy(QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Fixed)
-        lb.setStyleSheet("margin: 0px;")
         return lb
 
     def mk_unit_label(self, text: str) -> QLabel:
@@ -69,7 +69,6 @@ class Kredit(Module):
         lb.setAlignment(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft)
         lb.setMinimumHeight(32)
         lb.setSizePolicy(QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Fixed)
-        lb.setStyleSheet("margin: 0px;")
         return lb
 
     def mk_input(self) -> QLineEdit:
@@ -224,7 +223,7 @@ class Kredit(Module):
 
     def _mk_result_label(self, text: str) -> QLabel:
         lb = QLabel(text)
-        lb.setStyleSheet("margin: 0px;")
+        lb.setObjectName("result_label")
         return lb
 
     def build_page_einmal(self) -> QWidget:
@@ -248,7 +247,7 @@ class Kredit(Module):
         outer.addLayout(grid)
 
         self.e1_res_title = QLabel("Ergebnis")
-        self.e1_res_title.setStyleSheet("margin: 0px;")
+        self.e1_res_title.setObjectName("section_title")
         outer.addWidget(self.e1_res_title)
 
         self.e1_out_rueckzahlung = self._mk_result_label("Rückzahlung gesamt: —")
@@ -312,7 +311,7 @@ class Kredit(Module):
         outer.addLayout(grid)
 
         self.l1_res_title = QLabel("Ergebnis")
-        self.l1_res_title.setStyleSheet("margin: 0px;")
+        self.l1_res_title.setObjectName("section_title")
         outer.addWidget(self.l1_res_title)
 
         self.l1_out_rate = self._mk_result_label("Ratenhöhe: —")
@@ -384,7 +383,7 @@ class Kredit(Module):
         outer.addLayout(grid)
 
         self.r1_res_title = QLabel("Ergebnis")
-        self.r1_res_title.setStyleSheet("margin: 0px;")
+        self.r1_res_title.setObjectName("section_title")
         outer.addWidget(self.r1_res_title)
 
         self.r1_out_laufzeit = self._mk_result_label("Laufzeit (Monate): —")

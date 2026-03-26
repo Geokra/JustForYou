@@ -85,7 +85,7 @@ class PercentCalculator(Module):
 
         self.output_result = QLabel("Ergebnis: –")
         self.output_result.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.output_result.setStyleSheet("font-weight: bold; font-size: 14px; color: #2ecc71;")
+        self.output_result.setObjectName("result_label")
         storage_layout.addWidget(self.output_result)
 
         layout.addWidget(storage_group)
