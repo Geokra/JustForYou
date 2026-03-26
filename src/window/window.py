@@ -14,6 +14,7 @@ class Window(QMainWindow):
         self.setWindowTitle("JustForYou")
         self.resize(1920, 1080)
         self.load_stylesheet()
+        settings.settings.set_window(self)
 
     def setup(self):
         self.central_widget = QWidget(self)
