@@ -1,13 +1,11 @@
-import math
-from fractions import Fraction
-
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (
     QComboBox, QDoubleSpinBox, QFormLayout, QGroupBox, QHBoxLayout,
-    QLabel, QLineEdit, QPushButton, QSpinBox, QStackedWidget,
+    QLabel, QLineEdit, QPushButton, QSizePolicy, QSpinBox, QStackedWidget,
     QVBoxLayout, QWidget
 )
 from module import Module
+from modules.mathematik.math_helper import factorial, sqrt, decimal_to_fraction, simplify_fraction
 import history
 
 
@@ -96,6 +94,9 @@ class Mathematik(Module):
 
         self.func_result = QLabel()
         self.func_result.setObjectName("result_label")
+        self.func_result.setWordWrap(True)
+        self.func_result.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
+        self.func_result.setSizePolicy(QSizePolicy.Policy.Ignored, QSizePolicy.Policy.Preferred)
         group_layout.addWidget(self.func_result)
 
         self.func_error = QLabel()
@@ -146,14 +147,14 @@ class Mathematik(Module):
             if mode == "Fakultät":
                 if a < 0 or a != int(a):
                     raise ValueError("n muss eine nicht-negative Ganzzahl sein")
-                result = math.factorial(int(a))
+                result = factorial(int(a))
                 self.func_result.setText(f"Ergebnis: {result}")
                 history.history.update(f"{int(a)}! = {result}")
 
             elif mode == "Quadratwurzel":
                 if a < 0:
                     raise ValueError("Zahl darf nicht negativ sein")
-                result = math.sqrt(a)
+                result = sqrt(a)
                 self.func_result.setText(f"Ergebnis: {self._format_result(result)}")
                 history.history.update(f"√{self._format_result(a)} = {self._format_result(result)}")
 
@@ -318,9 +319,9 @@ class Mathematik(Module):
             text = self.dec_input.text().strip().replace(",", ".")
             if not text:
                 raise ValueError("Bitte eine Dezimalzahl eingeben")
-            frac = Fraction(text).limit_denominator()
-            self.dec_result.setText(f"Ergebnis: {frac.numerator}/{frac.denominator}")
-            history.history.update(f"{text} = {frac.numerator}/{frac.denominator}")
+            num, den = decimal_to_fraction(float(text))
+            self.dec_result.setText(f"Ergebnis: {num}/{den}")
+            history.history.update(f"{text} = {num}/{den}")
         except (ValueError, ZeroDivisionError) as e:
             self.dec_error.setText(f"Fehler: {e}")
 
@@ -342,10 +343,9 @@ class Mathematik(Module):
                 raise ValueError("Nenner darf nicht 0 sein")
 
             result = numerator / denominator
-            frac = Fraction(numerator).limit_denominator() / Fraction(denominator).limit_denominator()
-            frac = frac.limit_denominator()
+            num, den = simplify_fraction(int(round(numerator)), int(round(denominator)))
 
             self.frac_result.setText(f"Ergebnis: {self._format_result(result)}")
-            history.history.update(f"{frac.numerator}/{frac.denominator} = {self._format_result(result)}")
+            history.history.update(f"{num}/{den} = {self._format_result(result)}")
         except ValueError as e:
             self.frac_error.setText(f"Fehler: {e}")
