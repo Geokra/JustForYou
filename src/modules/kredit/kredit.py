@@ -1,11 +1,13 @@
+import typing
+from PyQt6 import QtGui
 from PyQt6.QtWidgets import (
     QWidget, QPushButton, QGroupBox, QHBoxLayout, QVBoxLayout, QStackedWidget,
-    QLabel, QLineEdit, QGridLayout, QFrame, QSizePolicy, QSpacerItem
+    QLabel, QLineEdit, QGridLayout, QFrame, QSizePolicy
 )
 from PyQt6.QtCore import Qt, QDateTime
+from input import ClickableLineEdit
 from module import Module
 import history
-
 
 class Kredit(Module):
     def on_enable(self):
@@ -73,7 +75,7 @@ class Kredit(Module):
         return lb
 
     def mk_input(self) -> QLineEdit:
-        le = QLineEdit()
+        le = ClickableLineEdit()
         le.setFixedHeight(32)
         le.setMinimumWidth(180)
         le.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
