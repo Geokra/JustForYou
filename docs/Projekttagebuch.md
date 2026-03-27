@@ -36,3 +36,29 @@
 ----
 - Projektqualitätsplan
 - Design-Klassendiagramm
+##### 03.02.2026
+----
+GUI Implementierung
+History Implementierung
+##### 05.02.2026
+----
+- GUI Implementierung
+- Settings UI
+##### 06.02.2026
+----
+- Prozentrechner Modul
+- IT Modul
+##### 24.03.2026
+----
+- Grundrechner Modul
+- Schul Modul
+##### 26.03.2026
+----
+- Mathematik Modul
+- Kredit Modul
+- Black-Box-Tests
+##### 27.03.2026
+----
+- Nachleistungen am Quellcode
+- PowerPoint Präsentation
+- Projekt- und Releaseabnahme
