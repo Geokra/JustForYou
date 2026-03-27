@@ -1,6 +1,7 @@
 import typing
 from PyQt6 import QtGui
-from PyQt6.QtCore import Qt, pyqtSignal
+from PyQt6.QtGui import QDoubleValidator
+from PyQt6.QtCore import QLocale, Qt, pyqtSignal
 from PyQt6.QtWidgets import QWidget, QGridLayout, QLineEdit, QPushButton
 
 
@@ -16,7 +17,7 @@ class NumPad(QWidget):
             "7","8","9",
             "4","5","6",
             "1","2","3",
-            "0",",","⌫"
+            "0",".","⌫"
         ]
 
         for i, text in enumerate(nums):
@@ -27,6 +28,9 @@ class NumPad(QWidget):
     def press(self, t):
         if t == "⌫":
             self.target.backspace()
+        elif t == ".":
+            if "." not in self.target.text():
+                self.target.insert(t)
         else:
             self.target.insert(t)
 
@@ -36,6 +40,9 @@ class ClickableLineEdit(QLineEdit):
 
     def __init__(self, parent=None):
         super().__init__(parent)
+
+        validator = QDoubleValidator()
+        self.setValidator(validator)
 
         # connect signal to slot
         self.clicked.connect(self.open_numpad)

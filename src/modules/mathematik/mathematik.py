@@ -5,6 +5,7 @@ from PyQt6.QtWidgets import (
     QVBoxLayout, QWidget
 )
 
+from input import ClickableLineEdit
 from module import Module
 from modules.mathematik.math_helper import factorial, sqrt, decimal_to_fraction, simplify_fraction
 import history
@@ -66,19 +67,14 @@ class Mathematik(Module):
 
         self.func_label_a = QLabel("")
 
-        self.func_input_int = QSpinBox()
-        self.func_input_int.setRange(0, 1_000_000)
+        self.func_input_int = ClickableLineEdit()
 
-        self.func_input_float = QDoubleSpinBox()
-        self.func_input_float.setRange(-1e9, 1e9)
-        self.func_input_float.setDecimals(10)
+        self.func_input_float = ClickableLineEdit()
 
         form.addRow(self.func_label_a, self.func_input_int)
         form.addRow("", self.func_input_float)
 
-        self.func_input_b = QDoubleSpinBox()
-        self.func_input_b.setRange(-1e9, 1e9)
-        self.func_input_b.setDecimals(10)
+        self.func_input_b = ClickableLineEdit()
 
         self.func_label_b = QLabel("Exponent:")
         form.addRow(self.func_label_b, self.func_input_b)
@@ -136,13 +132,13 @@ class Mathematik(Module):
 
         try:
             if mode == "Fakultät":
-                a = self.func_input_int.value()
+                a = int(self.func_input_int.text())
                 result = factorial(a)
                 self.func_result.setText(f"Ergebnis: {result}")
                 history.history.update(f"{a}! = {result}")
 
             elif mode == "Quadratwurzel":
-                a = self.func_input_float.value()
+                a = float(self.func_input_float.text())
                 if a < 0:
                     self.func_result.setText("Zahl darf nicht negativ sein")
                 else:
@@ -151,8 +147,8 @@ class Mathematik(Module):
                     history.history.update(f"√{self._format_result(a)} = {self._format_result(result)}")
 
             elif mode == "Potenz":
-                a = self.func_input_float.value()
-                b = self.func_input_b.value()
+                a = float(self.func_input_float.text())
+                b = float(self.func_input_b.text())
                 result = a ** b
                 self.func_result.setText(f"Ergebnis: {self._format_result(result)}")
                 history.history.update(
@@ -172,12 +168,9 @@ class Mathematik(Module):
 
         form = QFormLayout()
 
-        self.prime_from = QSpinBox()
-        self.prime_from.setRange(2, 1_000_000)
+        self.prime_from = ClickableLineEdit()
 
-        self.prime_to = QSpinBox()
-        self.prime_to.setRange(2, 1_000_000)
-        self.prime_to.setValue(100)
+        self.prime_to = ClickableLineEdit()
 
         form.addRow("Untergrenze:", self.prime_from)
         form.addRow("Obergrenze:", self.prime_to)
@@ -219,8 +212,8 @@ class Mathematik(Module):
         self.prime_count.clear()
         self.prime_result.clear()
 
-        lo = self.prime_from.value()
-        hi = self.prime_to.value()
+        lo = float(self.prime_from.text())
+        hi = float(self.prime_to.text())
 
         if lo > hi:
             self.prime_error.setText("Fehler: Untergrenze muss ≤ Obergrenze sein")
@@ -242,9 +235,8 @@ class Mathematik(Module):
 
         form = QFormLayout()
 
-        self.frac_numerator = QSpinBox()
-        self.frac_denominator = QSpinBox()
-        self.frac_denominator.setRange(1, 1_000_000)
+        self.frac_numerator = ClickableLineEdit()
+        self.frac_denominator = ClickableLineEdit()
 
         form.addRow("Zähler:", self.frac_numerator)
         form.addRow("Nenner:", self.frac_denominator)
@@ -269,8 +261,8 @@ class Mathematik(Module):
         self.frac_result.clear()
 
         try:
-            num = self.frac_numerator.value()
-            den = self.frac_denominator.value()
+            num = float(self.frac_numerator.text())
+            den = float(self.frac_denominator.text())
 
             result = num / den
             n, d = simplify_fraction(num, den)

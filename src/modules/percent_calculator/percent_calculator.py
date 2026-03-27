@@ -1,6 +1,7 @@
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (QComboBox, QFormLayout, QGroupBox, QLabel,
                              QPushButton, QDoubleSpinBox, QVBoxLayout, QWidget)
+from input import ClickableLineEdit
 from module import Module
 import history
 
@@ -43,9 +44,7 @@ class PercentCalculator(Module):
         self.form_layout.setLabelAlignment(Qt.AlignmentFlag.AlignLeft)
 
         # Base Input (Grundwert) - Used by all
-        self.input_base = QDoubleSpinBox()
-        self.input_base.setRange(0, float('inf'))
-        self.input_base.setDecimals(2)
+        self.input_base = ClickableLineEdit()
         self.form_layout.addRow("Grundwert:", self.input_base)
 
         # --- Dynamic Input Container ---
@@ -55,9 +54,7 @@ class PercentCalculator(Module):
         dynamic_layout.setContentsMargins(0, 0, 0, 0)
 
         self.label_dynamic = QLabel("Prozent (%):")
-        self.input_dynamic = QDoubleSpinBox()
-        self.input_dynamic.setRange(0, float('inf'))
-        self.input_dynamic.setDecimals(2)
+        self.input_dynamic = ClickableLineEdit()
         dynamic_layout.addRow(self.label_dynamic, self.input_dynamic)
 
         # --- Comparison Container ---
@@ -66,9 +63,7 @@ class PercentCalculator(Module):
         satz_layout = QFormLayout(self.container_satz)
         satz_layout.setContentsMargins(0, 0, 0, 0)
 
-        self.input_compare = QDoubleSpinBox()
-        self.input_compare.setRange(0, float('inf'))
-        self.input_compare.setDecimals(2)
+        self.input_compare = ClickableLineEdit()
         self.label_compare = QLabel("Gesamtwert (100%):")
         satz_layout.addRow(self.label_compare, self.input_compare)
 
@@ -123,9 +118,10 @@ class PercentCalculator(Module):
         text = self.calc_mode_combo.currentText()
         mode = self.mode_map.get(text)
 
-        val_base = self.input_base.value()
-        val_dyn = self.input_dynamic.value()
-        val_comp = self.input_compare.value()
+        val_base = float(self.input_base.text())
+        val_dyn = float(self.input_dynamic.text())
+        val_comp_text = self.input_compare.text().strip()
+        val_comp = float(val_comp_text) if val_comp_text else 0.0
 
         result = 0.0
 
