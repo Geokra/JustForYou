@@ -1,10 +1,10 @@
 import pathlib
 import sys
 from PyQt6.QtWidgets import QApplication
+import history
 from manager.module_manager import ModuleManager
 import settings
 from window.window import Window
-import module
 
 def main():
     app = QApplication(sys.argv)
@@ -22,11 +22,13 @@ def main():
     window.set_modules(module_manager.modules)
     window.setup()
     window.show()
+    history.history.load()
 
     app.exec()
 
     module_manager.disable()
     settings.settings.save()
+    history.history.save()
 
 if __name__ == '__main__':
     main()

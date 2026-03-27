@@ -2,7 +2,7 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QLineEdit, QPushButton, QWidget, QGroupBox, QVBoxLayout, QGridLayout, QLabel, QSizePolicy
 from module import Module
 import history
-import helper
+import helper2
 
 class BasicCalculator(Module):
 
@@ -79,9 +79,9 @@ class BasicCalculator(Module):
         self.input_term.setFocus()
 
     def on_calc(self):
-        try:
-            result = helper.calculate(self.input_term.text())
-            self.output_label.setText("Ergebnis: " + str(result))
+        try: 
+            result = helper2.calculate(self.input_term.text())
+            self.output_label.setText(("Ergebnis: " + str(result)))
             history.history.update(str(result))
         except ValueError as e:
             self.output_label.setText("Error: " + str(e))
