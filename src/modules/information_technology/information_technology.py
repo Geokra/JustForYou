@@ -57,16 +57,26 @@ class InformationTechnology(Module):
         self.stacked_widget.setCurrentWidget(self.data_conversion_group)
 
     def on_calculate_storage(self):
+        width = float(self.input_width.text())
+        height = float(self.input_height.text())
+        depth = float(self.input_color_depth.text())
+        frames = float(self.input_frames.text())
+
         result = helper.calculate_storage(
-                float(self.input_width.text()),
-                float(self.input_height.text()),
-                float(self.input_color_depth.text()),
-                float(self.input_frames.text())
+            width,
+            height,
+            depth,
+            frames
         )
         
         target_unit = helper.Unit[self.unit.currentText()]
         result = helper.convert_to_unit(result, helper.Unit.BIT, target_unit)
-        history.history.update(f"{result} {target_unit.name}")
+        
+        bits = width * height * depth * frames
+
+        history.history.update(
+            f"IT | ({int(width)} * {int(height)} * {int(depth)} * {int(frames)}) Bit = {bits:.0f} Bit → {result:.6f} {target_unit.name}"
+        )
 
     def on_calculate_base(self):
         text = self.number.toPlainText().strip()
@@ -79,7 +89,15 @@ class InformationTechnology(Module):
         try:
             result = helper.convert_number(text, from_base, to_base)
             self.error.setText("")
-            history.history.update(result)
+            decimal_value = int(text, from_base.value)
+            steps = []
+            temp = decimal_value
+            while temp > 0:
+                steps.append(f"{temp} / {to_base.value} = {temp // to_base.value} R {temp % to_base.value}")
+                temp //= to_base.value
+            history.history.update(
+                f"IT | {text} ({from_base_text}) → {result} ({to_base_text}) | {' | '.join(steps)}"
+            )
         except ValueError:
             self.error.setText("Ungültige Eingabe")
 
@@ -91,13 +109,23 @@ class InformationTechnology(Module):
         try:
             result = helper.convert_data_units(value, from_unit, to_unit)
             
-            if result == int(result):
-                result_text = f"{int(result)} {to_unit}"
-            else:
-                result_text = f"{result:.6f} {to_unit}"
-            
             self.data_error.setText("")
-            history.history.update(result_text)
+            binary_exponents = {'B': 0, 'KiB': 1, 'MiB': 2, 'GiB': 3, 'TiB': 4}
+            decimal_exponents = {'B': 0, 'KB': 1, 'MB': 2, 'GB': 3, 'TB': 4}
+
+            if from_unit in binary_exponents:
+                from_exp = f"1024^{binary_exponents[from_unit]}" if binary_exponents[from_unit] > 0 else "1"
+            else:
+                from_exp = f"1000^{decimal_exponents[from_unit]}" if decimal_exponents[from_unit] > 0 else "1"
+
+            if to_unit in binary_exponents:
+                to_exp = f"1024^{binary_exponents[to_unit]}" if binary_exponents[to_unit] > 0 else "1"
+            else:
+                to_exp = f"1000^{decimal_exponents[to_unit]}" if decimal_exponents[to_unit] > 0 else "1"
+
+            history.history.update(
+                f"IT | {value} {from_unit} → {result:.6f} {to_unit} | {value} * {from_exp} / {to_exp} = {result:.6f}"
+            )
             
         except Exception as e:
             self.data_error.setText(f"Fehler bei der Umrechnung: {str(e)}")

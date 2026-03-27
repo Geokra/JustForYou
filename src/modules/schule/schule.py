@@ -167,6 +167,11 @@ class Schule(Module):
         self.lbl_avg.setText(f"{avg:.2f}")
         self.lbl_recommendation.setText(rec)
 
+        calculation = " + ".join(str(int(g) if g.is_integer() else g) for g in self._grades)
+        total = sum(self._grades)
+
         history.history.update(
-            f"Schule | {n} Noten | Ø {avg:.2f} | Empfehlung: {rec}"
+            f"Schule | {n} Noten | "
+            f"Rechnung: {calculation} = {total:.2f} | "
+            f"Ø {avg:.2f} | Empfehlung: {rec}"
         )

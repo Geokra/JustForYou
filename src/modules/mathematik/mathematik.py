@@ -135,7 +135,8 @@ class Mathematik(Module):
                 a = int(self.func_input_int.text())
                 result = factorial(a)
                 self.func_result.setText(f"Ergebnis: {result}")
-                history.history.update(f"{a}! = {result}")
+                steps = " · ".join(str(i) for i in range(1, a + 1)) if a > 0 else "1"
+                history.history.update(f"Mathe | {a}! = {steps} = {result}")
 
             elif mode == "Quadratwurzel":
                 a = float(self.func_input_float.text())
@@ -144,7 +145,9 @@ class Mathematik(Module):
                 else:
                     result = sqrt(a)
                     self.func_result.setText(f"Ergebnis: {self._format_result(result)}")
-                    history.history.update(f"√{self._format_result(a)} = {self._format_result(result)}")
+                    history.history.update(
+                        f"Mathe | √{self._format_result(a)} ≈ {self._format_result(result)}"
+                    )
 
             elif mode == "Potenz":
                 a = float(self.func_input_float.text())
@@ -152,7 +155,7 @@ class Mathematik(Module):
                 result = a ** b
                 self.func_result.setText(f"Ergebnis: {self._format_result(result)}")
                 history.history.update(
-                    f"{self._format_result(a)}^{self._format_result(b)} = {self._format_result(result)}"
+                    f"Mathe | {self._format_result(a)}^{self._format_result(b)} = {self._format_result(result)}"
                 )
 
         except OverflowError:
@@ -212,8 +215,8 @@ class Mathematik(Module):
         self.prime_count.clear()
         self.prime_result.clear()
 
-        lo = float(self.prime_from.text())
-        hi = float(self.prime_to.text())
+        lo = int(self.prime_from.text())
+        hi = int(self.prime_to.text())
 
         if lo > hi:
             self.prime_error.setText("Fehler: Untergrenze muss ≤ Obergrenze sein")
@@ -223,7 +226,10 @@ class Mathematik(Module):
         self.prime_count.setText(f"Anzahl: {len(primes)}")
         self.prime_result.setText(", ".join(map(str, primes)))
 
-        history.history.update(f"Primzahlen [{lo}–{hi}]: {len(primes)} gefunden")
+        history.history.update(
+            f"Mathe | Primzahlen [{int(lo)}–{int(hi)}] → {len(primes)} Stück: {', '.join(map(str, primes[:10]))}"
+            + (" ..." if len(primes) > 10 else "")
+        )
 
 
     def _build_fractions_page(self) -> QWidget:
@@ -268,7 +274,10 @@ class Mathematik(Module):
             n, d = simplify_fraction(num, den)
 
             self.frac_result.setText(f"Ergebnis: {self._format_result(result)}")
-            history.history.update(f"{n}/{d} = {self._format_result(result)}")
+            history.history.update(
+                f"Mathe | {int(num)}/{int(den)} → {n}/{d} = {self._format_result(result)}"
+            )
+
 
         except ValueError as e:
             self.frac_error.setText(f"Fehler: {e}")

@@ -155,7 +155,26 @@ class PercentCalculator(Module):
 
             result_text = f"{result_label} = {result:,.2f}{unit}"
             self.output_result.setText(result_text)
-            history.history.update(f"{result:,.2f}{unit}")
+            
+
+            calculation = ""
+
+            if mode == Unit.dazu:
+                calculation = f"{val_base:,.2f} + ({val_dyn}% von {val_base:,.2f})"
+            elif mode == Unit.weg:
+                calculation = f"{val_base:,.2f} - ({val_dyn}% von {val_base:,.2f})"
+            elif mode == Unit.davon:
+                calculation = f"{val_dyn}% von {val_base:,.2f} = ({val_dyn}/100 * {val_base:,.2f})"
+            elif mode == Unit.satz:
+                calculation = f"({val_base:,.2f} / {val_comp:,.2f}) * 100"
+            elif mode == Unit.brutto:
+                calculation = f"{val_base:,.2f} * 1.19"
+            elif mode == Unit.netto:
+                calculation = f"{val_base:,.2f} / 1.19"
+
+            history.history.update(
+                f"Prozent | {calculation} = {result:,.2f}{unit}"
+            )
         except Exception as e:
             self.output_result.setText(f"Fehler: {str(e)}")
 

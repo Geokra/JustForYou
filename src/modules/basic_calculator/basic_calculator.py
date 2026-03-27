@@ -6,6 +6,7 @@ from PyQt6.QtWidgets import (
 from module import Module
 import history
 import helper2
+import re
 
 class BasicCalculator(Module):
 
@@ -65,8 +66,26 @@ class BasicCalculator(Module):
 
     def on_calc(self):
         try:
-            result = helper2.calculate(self.input_term.text())
+            expr = self.input_term.text()
+
+            result = helper2.calculate(expr)
+
+            def eval_mul_div(match):
+                sub = match.group(0)
+                return str(eval(sub))
+
+            step1 = re.sub(r'\d+(\.\d+)?\s*[\*\/]\s*\d+(\.\d+)?', eval_mul_div, expr)
+
+            try:
+                step2 = str(eval(step1))
+            except:
+                step2 = str(result)
+
+            history.history.update(
+                f"Rechner | {expr} = {step1} = {step2}"
+            )
+
             self.output_label.setText("Ergebnis: " + str(result))
-            history.history.update(str(result))
+
         except ValueError as e:
             self.output_label.setText("Error: " + str(e))
