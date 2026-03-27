@@ -1,5 +1,6 @@
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QComboBox, QDoubleSpinBox, QFormLayout, QGroupBox, QLabel, QPushButton, QSpinBox, QStackedWidget, QTextEdit, QVBoxLayout, QWidget
+from PyQt6.QtWidgets import QComboBox, QFormLayout, QGroupBox, QLabel, QPushButton, QStackedWidget, QTextEdit, QVBoxLayout, QWidget
+from input import ClickableLineEdit
 from module import Module
 import helper
 import history
@@ -57,10 +58,10 @@ class InformationTechnology(Module):
 
     def on_calculate_storage(self):
         result = helper.calculate_storage(
-                self.input_width.value(),
-                self.input_height.value(),
-                self.input_color_depth.value(),
-                self.input_frames.value()
+                float(self.input_width.text()),
+                float(self.input_height.text()),
+                float(self.input_color_depth.text()),
+                float(self.input_frames.text())
         )
         
         target_unit = helper.Unit[self.unit.currentText()]
@@ -83,7 +84,7 @@ class InformationTechnology(Module):
             self.error.setText("Ungültige Eingabe")
 
     def on_convert_data(self):
-        value = self.data_value.value()
+        value = float(self.data_value.text())
         from_unit = self.data_from.currentText()
         to_unit = self.data_to.currentText()
 
@@ -112,17 +113,10 @@ class InformationTechnology(Module):
         form_layout.setFormAlignment(Qt.AlignmentFlag.AlignTop)
 
 
-        self.input_width = QSpinBox()
-        self.input_width.setRange(1, 10000)
-
-        self.input_height = QSpinBox()
-        self.input_height.setRange(1, 10000)
-
-        self.input_color_depth = QSpinBox()
-        self.input_color_depth.setRange(1, 64)
-
-        self.input_frames = QSpinBox()
-        self.input_frames.setRange(1, 100000)
+        self.input_width = ClickableLineEdit()
+        self.input_height = ClickableLineEdit()
+        self.input_color_depth = ClickableLineEdit()
+        self.input_frames = ClickableLineEdit()
 
         self.unit = QComboBox()
         self.unit.addItems(["BIT", "BYTE", "KIB", "MIB", "GIB", "TIB"])
@@ -178,10 +172,7 @@ class InformationTechnology(Module):
         form_layout.setLabelAlignment(Qt.AlignmentFlag.AlignLeft)
         form_layout.setFormAlignment(Qt.AlignmentFlag.AlignTop)
 
-        self.data_value = QDoubleSpinBox()
-        self.data_value.setRange(0.000001, 999999999.0)
-        self.data_value.setDecimals(6)
-        self.data_value.setValue(1.0)
+        self.data_value = ClickableLineEdit()
 
         self.data_from = QComboBox()
         self.data_from.addItems(["B", "KiB", "MiB", "GiB", "TiB", "KB", "MB", "GB", "TB"])
