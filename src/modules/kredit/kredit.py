@@ -219,10 +219,8 @@ class Kredit(Module):
         zinsen = gesamtzahlung - kreditbetrag
         return n, gesamtzahlung, zinsen
 
-    def _history_update(self, result: str, unit_name: str):
-        ts = QDateTime.currentDateTime().toString("yyyy-MM-dd HH:mm")
-        target_unit = type("Unit", (), {"name": unit_name})()
-        history.history.update(f"[{ts}] {result} {target_unit.name}")
+    def _history_update(self, calculation: str):
+        history.history.update(f"Kredit | {calculation}")
 
     def _mk_result_label(self, text: str) -> QLabel:
         lb = QLabel(text)
@@ -285,8 +283,14 @@ class Kredit(Module):
             self.e1_out_rueckzahlung.setText(r_text)
             self.e1_out_zinsen.setText(z_text)
 
-            self._history_update(f"Rückzahlung gesamt: {self.eur_value_only(rueckzahlung)}", "EUR")
-            self._history_update(f"Zinsen gesamt: {self.eur_value_only(zinsen)}", "EUR")
+            self._history_update(
+                f"{self.eur_value_only(k)} * (1 + {p}/100/12)^{n} = {self.eur_value_only(rueckzahlung)}"
+            )
+
+            self._history_update(
+                f"{self.eur_value_only(rueckzahlung)} - {self.eur_value_only(k)} = {self.eur_value_only(zinsen)}"
+            )
+            
         except Exception as e:
             self.e1_out_rueckzahlung.setText("Rückzahlung gesamt: —")
             self.e1_out_zinsen.setText(f"Fehler: {e}")
@@ -355,9 +359,19 @@ class Kredit(Module):
             self.l1_out_gesamt.setText(g_text)
             self.l1_out_zinsen.setText(z_text)
 
-            self._history_update(f"Ratenhöhe: {self.eur_value_only(rate)}", "EUR")
-            self._history_update(f"Gesamtzahlung: {self.eur_value_only(gesamt)}", "EUR")
-            self._history_update(f"Zinsen gesamt: {self.eur_value_only(zinsen)}", "EUR")
+            i = self.monthly_rate(p)
+
+            self._history_update(
+                f"Rate ≈ ({self.eur_value_only(k)} - {self.eur_value_only(s)}) * {i:.6f} / (1 - (1+i)^-{n}) = {self.eur_value_only(rate)}"
+            )
+
+            self._history_update(
+                f"{self.eur_value_only(rate)} * {n} + {self.eur_value_only(s)} = {self.eur_value_only(gesamt)}"
+            )
+
+            self._history_update(
+                f"{self.eur_value_only(gesamt)} - {self.eur_value_only(k)} = {self.eur_value_only(zinsen)}"
+            )
         except Exception as e:
             self.l1_out_rate.setText("Ratenhöhe: —")
             self.l1_out_gesamt.setText("Gesamtzahlung: —")
@@ -427,9 +441,17 @@ class Kredit(Module):
             self.r1_out_gesamt.setText(g_text)
             self.r1_out_zinsen.setText(z_text)
 
-            self._history_update(f"Laufzeit: {n}", "Monate")
-            self._history_update(f"Gesamtzahlung: {self.eur_value_only(gesamt)}", "EUR")
-            self._history_update(f"Zinsen gesamt: {self.eur_value_only(zinsen)}", "EUR")
+            self._history_update(
+                f"Laufzeit ≈ {n} Monate bei Rate {self.eur_value_only(rate)}"
+            )
+
+            self._history_update(
+                f"{self.eur_value_only(rate)} * {n} + {self.eur_value_only(s)} = {self.eur_value_only(gesamt)}"
+            )
+
+            self._history_update(
+                f"{self.eur_value_only(gesamt)} - {self.eur_value_only(k)} = {self.eur_value_only(zinsen)}"
+            )
         except Exception as e:
             self.r1_out_laufzeit.setText("Laufzeit (Monate): —")
             self.r1_out_gesamt.setText("Gesamtzahlung: —")
