@@ -17,8 +17,8 @@ class NumPad(QWidget):
             "7","8","9",
             "4","5","6",
             "1","2","3",
-            "0",".", "+",
-            "-", "⌫"
+            "0",".", "±",
+            "⌫"
         ]
 
         for i, text in enumerate(nums):
@@ -27,6 +27,12 @@ class NumPad(QWidget):
             layout.addWidget(btn, i // 3, i % 3)
 
     def press(self, t):
+        if t == "±":
+            text = self.target.text()
+            if text.startswith("-"):
+                self.target.setText(text[1:])
+            elif text:
+                self.target.setText("-" + text)
         if t == "⌫":
             self.target.backspace()
         elif t == ".":
