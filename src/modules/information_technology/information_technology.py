@@ -1,5 +1,5 @@
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QComboBox, QFormLayout, QGroupBox, QLabel, QPushButton, QStackedWidget, QTextEdit, QVBoxLayout, QWidget
+from PyQt6.QtWidgets import QComboBox, QFormLayout, QGroupBox, QHBoxLayout, QLabel, QPushButton, QStackedWidget, QTextEdit, QVBoxLayout, QWidget
 from input import ClickableLineEdit
 from module import Module
 import helper
@@ -16,7 +16,7 @@ class InformationTechnology(Module):
         layout.setSpacing(12)
 
         options_group = QGroupBox()
-        options_layout = QVBoxLayout(options_group)
+        options_layout = QHBoxLayout(options_group)
 
         storage_calculation_button = QPushButton("Speicherberechnung")
         options_layout.addWidget(storage_calculation_button)
