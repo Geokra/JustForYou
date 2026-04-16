@@ -9,6 +9,7 @@ BUILD_PATH = "build"
 SRC_PATH = "src/main.py"
 APP_NAME = "JustForYou"
 STYLES_PATH = "styles"
+SRC_DIR = os.path.abspath("src")
 
 def main():
     clean_build_directory()
@@ -27,6 +28,10 @@ def build():
         "--onefile",
         "--name",
         APP_NAME,
+        "--add-data", f"{SRC_DIR}/module.py:.",
+        "--add-data", f"{SRC_DIR}/history.py:.",
+        "--add-data", f"{SRC_DIR}/settings.py:.",
+        "--add-data", f"{SRC_DIR}/input.py:.",
         SRC_PATH,
         "--distpath",
         f"{BUILD_PATH}/executable",

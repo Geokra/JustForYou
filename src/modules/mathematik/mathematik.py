@@ -7,7 +7,7 @@ from PyQt6.QtWidgets import (
 
 from input import ClickableLineEdit
 from module import Module
-from modules.mathematik.math_helper import factorial, sqrt, decimal_to_fraction, simplify_fraction
+from math_helper import factorial, sqrt, decimal_to_fraction, simplify_fraction
 import history
 
 
