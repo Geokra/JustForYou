@@ -79,7 +79,7 @@ class InformationTechnology(Module):
         )
 
     def on_calculate_base(self):
-        text = self.number.toPlainText().strip()
+        text = self.number.text().strip()
         from_base_text = self.base_from.currentText().upper()
         to_base_text = self.base_to.currentText().upper()
 
@@ -176,7 +176,7 @@ class InformationTechnology(Module):
         self.base_to = QComboBox()
         self.base_to.addItems(["decimal", "binary", "ternary", "octal"])
 
-        self.number = QTextEdit()
+        self.number = ClickableLineEdit()
         self.number.setPlaceholderText("Geben Sie hier die Zahl ein")
 
         form_layout.addRow("Von Zahlensystem:", self.base_from)
